@@ -30,7 +30,9 @@ class ServiceProvider extends ParentServiceProvider
 
         // register the cache indexing commands if running in cli
         if ($this->app->runningInConsole()) {
-            $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
+            if (config('cache.stores.mongodb.migrations')) {
+                $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
+            }
 
             $this->commands([
                 MongodbCacheIndex::class,
